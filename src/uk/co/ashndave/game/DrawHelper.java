@@ -14,13 +14,16 @@ public class DrawHelper {
 	
 	public DrawHelper(Component componentToDrawOnto) {
 		this.componentToDrawOnto = componentToDrawOnto;
-		width = componentToDrawOnto.getWidth();
-		height = componentToDrawOnto.getHeight();
 	}
 	
 	public boolean initRender() {
+		if((componentToDrawOnto == null) || !componentToDrawOnto.isValid()) {
+			return false;
+		}
 		if(dbImage == null) {
-			dbImage = componentToDrawOnto.createImage(componentToDrawOnto.getWidth(), componentToDrawOnto.getHeight());
+			width = componentToDrawOnto.getWidth();
+			height = componentToDrawOnto.getHeight();
+			dbImage = componentToDrawOnto.createImage(width, height);
 			if(dbImage == null) {
 				System.out.println("dbImage is still null");
 				return false;
@@ -50,7 +53,9 @@ public class DrawHelper {
 	}
 	
 	public void clearScreen() {
-		dbg.setColor(Color.white);
-		dbg.fillRect(0, 0, width, height);
+		if(dbg != null) {
+			dbg.setColor(Color.white);
+			dbg.fillRect(0, 0, width, height);
+		}
 	}
 }
